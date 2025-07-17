@@ -29,27 +29,27 @@ class Login extends Component {
   submitForm = async event => {
     event.preventDefault()
     const {username, password} = this.state
-    const userDetails = {username, password}
-    const apiUrl = 'https://apis.ccbp.in/login'
-    const options = {
-      method: 'POST',
-      body: JSON.stringify(userDetails),
-    }
-    const response = await fetch(apiUrl, options)
-    const data = await response.json()
-    if (response.ok === true) {
-      this.onSubmitSuccess(data.jwt_token)
+
+    // Simulated authentication
+    const hardcodedUsername = 'admin'
+    const hardcodedPassword = 'admin123'
+
+    if (username === hardcodedUsername && password === hardcodedPassword) {
+      const mockJwtToken = 'mocked_jwt_token_123'
+      this.onSubmitSuccess(mockJwtToken)
     } else {
-      this.onSubmitFailure(data.error_msg)
+      this.onSubmitFailure('Invalid username or password')
     }
   }
 
   render() {
     const {username, password, showSubmitError, errorMsg} = this.state
     const token = Cookies.get('jwt_token')
+
     if (token !== undefined) {
       return <Redirect to="/" />
     }
+
     return (
       <div className="login-container">
         <form className="form-container" onSubmit={this.submitForm}>
@@ -93,4 +93,5 @@ class Login extends Component {
     )
   }
 }
+
 export default Login
